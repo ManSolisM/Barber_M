@@ -1,0 +1,222 @@
+/* HomePage.css con diseño JAMELZ */
+.hero {
+  background: linear-gradient(135deg, var(--azul-profundo) 0%, var(--turquesa-tech) 50%, var(--verde-circuito) 100%);
+  color: var(--blanco-puro);
+  padding: 5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 800px;
+  z-index: 2;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(255, 107, 74, 0.2);
+  border: 2px solid var(--coral-energetic);
+  color: var(--beige-calido);
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.highlight {
+  color: var(--coral-energetic);
+  text-shadow: var(--shadow-glow);
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+  color: var(--beige-calido);
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-decoration {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.floating-icon {
+  position: absolute;
+  font-size: 4rem;
+  opacity: 0.1;
+  animation: float 6s ease-in-out infinite;
+}
+
+.floating-icon:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+.floating-icon:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
+.floating-icon:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 4s; }
+
+.features-section {
+  padding: 4rem 0;
+  background: var(--blanco-puro);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--blanco-puro) 0%, var(--light) 100%);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.services-section {
+  padding: 4rem 0;
+  background: linear-gradient(to bottom, var(--blanco-puro), var(--light));
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: var(--azul-profundo);
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--gris-tech);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.section-cta {
+  text-align: center;
+}
+
+.how-it-works {
+  padding: 4rem 0;
+  background: var(--azul-profundo);
+  color: var(--blanco-puro);
+}
+
+.how-it-works .section-title {
+  color: var(--beige-calido);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.steps-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.step-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 200px;
+  border: 2px solid var(--turquesa-tech);
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: var(--coral-energetic);
+  color: var(--blanco-puro);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 auto 1rem;
+}
+
+.step-arrow {
+  font-size: 2rem;
+  color: var(--turquesa-tech);
+}
+
+.final-cta {
+  background: linear-gradient(135deg, var(--turquesa-tech) 0%, var(--verde-circuito) 100%);
+  color: var(--blanco-puro);
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.final-cta h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--blanco-puro);
+}
+
+.final-cta p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: var(--beige-calido);
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1.1rem; }
+  .section-title { font-size: 2rem; }
+  .services-grid { grid-template-columns: 1fr; }
+  .step-arrow { display: none; }
+  .steps-grid { flex-direction: column; }
+}

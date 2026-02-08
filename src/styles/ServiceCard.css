@@ -1,0 +1,122 @@
+/* src/styles/ServiceCard.css */
+.service-card {
+  background: var(--blanco-puro);
+  border-radius: 16px;
+  padding: 1.8rem;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  text-align: center;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(45, 155, 155, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.service-card:hover::before {
+  left: 100%;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--turquesa-tech);
+}
+
+.service-card.selected {
+  border-color: var(--coral-energetic);
+  background: linear-gradient(135deg, var(--blanco-puro) 0%, rgba(255, 107, 74, 0.05) 100%);
+  box-shadow: 0 0 0 3px rgba(255, 107, 74, 0.2);
+}
+
+.service-card.unavailable {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+.service-icon-wrapper {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.service-icon {
+  font-size: 3.5rem;
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+.service-name {
+  font-size: 1.4rem;
+  color: var(--azul-profundo);
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.service-description {
+  color: var(--gris-tech);
+  margin-bottom: 1.2rem;
+  min-height: 45px;
+  font-size: 0.95rem;
+}
+
+.service-details {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 1.2rem;
+  border-top: 2px solid var(--turquesa-tech);
+  margin-top: auto;
+}
+
+.service-price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--coral-energetic);
+  text-shadow: 0 2px 4px rgba(255, 107, 74, 0.2);
+}
+
+.service-duration {
+  color: var(--gris-tech);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.service-unavailable {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--naranja-fuego);
+  color: var(--blanco-puro);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.service-selected-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--turquesa-tech);
+  color: var(--blanco-puro);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}

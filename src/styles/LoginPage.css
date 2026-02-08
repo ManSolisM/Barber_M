@@ -1,0 +1,20 @@
+/* LoginPage.css */
+.login-page { min-height: calc(100vh - 200px); display: flex; align-items: center; justify-content: center; padding: 2rem; background: linear-gradient(135deg, var(--azul-profundo), var(--turquesa-tech)); }
+.login-container { width: 100%; max-width: 900px; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.login-card { background: var(--blanco-puro); border-radius: 16px; padding: 2.5rem; box-shadow: var(--shadow-lg); }
+.login-icon { font-size: 3rem; margin-bottom: 1rem; }
+.login-header { text-align: center; margin-bottom: 2rem; }
+.login-header h2 { color: var(--azul-profundo); }
+.label-icon { margin-right: 0.5rem; }
+.demo-info { background: var(--light); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; font-size: 0.9rem; }
+.demo-credentials { display: flex; flex-direction: column; gap: 0.3rem; margin: 0.5rem 0; }
+.demo-credentials code { background: var(--blanco-puro); padding: 0.2rem 0.5rem; border-radius: 4px; }
+.demo-warning { color: var(--naranja-fuego); margin-top: 0.5rem; font-weight: 600; }
+.back-link { color: var(--turquesa-tech); text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+.login-features { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 16px; padding: 2rem; color: var(--blanco-puro); }
+.login-features h3 { margin-bottom: 1.5rem; color: var(--beige-calido); }
+.features-list { display: grid; gap: 1rem; }
+.feature-item { display: flex; align-items: center; gap: 1rem; }
+.feature-icon { font-size: 1.5rem; }
+@media (max-width: 768px) { .login-container { grid-template-columns: 1fr; } .login-features { display: none; } }

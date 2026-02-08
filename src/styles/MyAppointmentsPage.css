@@ -1,0 +1,15 @@
+/* MyAppointmentsPage.css */
+.my-appointments-page { padding: 3rem 0; background: linear-gradient(to bottom, var(--blanco-puro), var(--light)); }
+.search-input-group { display: flex; gap: 1rem; }
+.search-input { flex: 1; }
+.appointments-list { display: grid; gap: 1.5rem; }
+.appointment-card { background: var(--blanco-puro); border-radius: 16px; padding: 1.5rem; box-shadow: var(--shadow-md); border-left: 4px solid; }
+.appointment-card.status-pending { border-left-color: var(--coral-energetic); }
+.appointment-card.status-confirmed { border-left-color: var(--turquesa-tech); }
+.appointment-card.status-rejected { border-left-color: var(--naranja-fuego); }
+.appointment-card.status-completed { border-left-color: var(--verde-circuito); }
+.status-badge { padding: 0.4rem 1rem; border-radius: 20px; color: var(--blanco-puro); font-weight: 600; }
+.info-row { display: flex; align-items: flex-start; gap: 1rem; }
+.info-icon { font-size: 1.5rem; }
+.empty-results { text-align: center; padding: 4rem 2rem; background: var(--blanco-puro); border-radius: 16px; }
+.empty-icon { font-size: 4rem; opacity: 0.5; }

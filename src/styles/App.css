@@ -1,0 +1,400 @@
+/* src/styles/App.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Paleta Principal JAMELZ */
+  --turquesa-tech: #2D9B9B;
+  --coral-energetic: #FF6B4A;
+  --azul-profundo: #1A2332;
+  --beige-calido: #F4D6A8;
+  
+  /* Paleta Secundaria */
+  --verde-circuito: #3B7D7D;
+  --naranja-fuego: #E85D3F;
+  --gris-tech: #4A5568;
+  --blanco-puro: #FFFFFF;
+  
+  /* Alias para facilitar uso */
+  --primary: var(--turquesa-tech);
+  --secondary: var(--coral-energetic);
+  --dark: var(--azul-profundo);
+  --light: var(--beige-calido);
+  --accent: var(--verde-circuito);
+  --danger: var(--naranja-fuego);
+  --text-dark: var(--azul-profundo);
+  --text-light: var(--gris-tech);
+  
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(26, 35, 50, 0.1);
+  --shadow-md: 0 4px 12px rgba(26, 35, 50, 0.15);
+  --shadow-lg: 0 8px 24px rgba(26, 35, 50, 0.2);
+  --shadow-glow: 0 0 20px rgba(255, 107, 74, 0.3);
+  
+  /* Transiciones */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-dark);
+  background-color: var(--blanco-puro);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Importar fuentes de Google */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+  color: var(--azul-profundo);
+  font-weight: 600;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom, var(--blanco-puro) 0%, var(--beige-calido) 100%);
+}
+
+main {
+  flex: 1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Patrón de fondo de circuitos (sutil) */
+.circuit-pattern {
+  position: relative;
+  overflow: hidden;
+}
+
+.circuit-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(90deg, var(--turquesa-tech) 1px, transparent 1px),
+    linear-gradient(var(--turquesa-tech) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+/* Botones */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-normal);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  text-align: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--turquesa-tech);
+  color: var(--blanco-puro);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: var(--verde-circuito);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: var(--coral-energetic);
+  color: var(--blanco-puro);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background: var(--naranja-fuego);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--turquesa-tech);
+  border: 2px solid var(--turquesa-tech);
+}
+
+.btn-outline:hover {
+  background: var(--turquesa-tech);
+  color: var(--blanco-puro);
+}
+
+.btn-danger {
+  background: var(--naranja-fuego);
+  color: var(--blanco-puro);
+}
+
+.btn-danger:hover {
+  background: #c74a2f;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Cards */
+.card {
+  background: var(--blanco-puro);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+  border: 1px solid rgba(45, 155, 155, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--turquesa-tech);
+  margin-bottom: 1rem;
+}
+
+/* Inputs */
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid rgba(45, 155, 155, 0.2);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all var(--transition-fast);
+  background: var(--blanco-puro);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--turquesa-tech);
+  box-shadow: 0 0 0 3px rgba(45, 155, 155, 0.1);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--azul-profundo);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--blanco-puro);
+}
+
+.badge-primary {
+  background: var(--turquesa-tech);
+}
+
+.badge-secondary {
+  background: var(--coral-energetic);
+}
+
+.badge-success {
+  background: var(--verde-circuito);
+}
+
+.badge-danger {
+  background: var(--naranja-fuego);
+}
+
+.badge-gray {
+  background: var(--gris-tech);
+}
+
+/* Alerts */
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid;
+}
+
+.alert-info {
+  background: rgba(45, 155, 155, 0.1);
+  border-color: var(--turquesa-tech);
+  color: var(--azul-profundo);
+}
+
+.alert-success {
+  background: rgba(59, 125, 125, 0.1);
+  border-color: var(--verde-circuito);
+  color: var(--azul-profundo);
+}
+
+.alert-warning {
+  background: rgba(255, 107, 74, 0.1);
+  border-color: var(--coral-energetic);
+  color: var(--azul-profundo);
+}
+
+.alert-danger {
+  background: rgba(232, 93, 63, 0.1);
+  border-color: var(--naranja-fuego);
+  color: var(--azul-profundo);
+}
+
+/* Loading spinner */
+.spinner {
+  border: 3px solid rgba(45, 155, 155, 0.1);
+  border-top: 3px solid var(--turquesa-tech);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Utilidades */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+.my-1 { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+.my-2 { margin-top: 1rem; margin-bottom: 1rem; }
+.my-3 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+.p-4 { padding: 2rem; }
+
+.d-flex { display: flex; }
+.d-grid { display: grid; }
+.d-none { display: none; }
+.d-block { display: block; }
+
+.align-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }
+
+.flex-1 { flex: 1; }
+.flex-wrap { flex-wrap: wrap; }
+
+/* Animaciones personalizadas */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal);
+}
+
+.animate-slide-up {
+  animation: slideUp var(--transition-normal);
+}
+
+.animate-slide-down {
+  animation: slideDown var(--transition-normal);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+}
+
+/* Footer branding */
+.jamelz-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  color: var(--turquesa-tech);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.jamelz-brand:hover {
+  color: var(--coral-energetic);
+  text-shadow: 0 0 10px rgba(255, 107, 74, 0.3);
+}
