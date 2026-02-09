@@ -17,8 +17,8 @@ export const AuthProvider = ({ children }) => {
 
   // Credenciales del dueño (en producción usar backend)
   const ownerCredentials = {
-    username: 'admin',
-    password: 'admin123'
+    username: 'Sr_Man',
+    password: 'Man123.'
   };
 
   // Verificar sesión al cargar
