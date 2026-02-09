@@ -41,20 +41,77 @@ export const services = [
     name: 'Tinte',
     price: 400,
     duration: 60,
-    description: 'Tinte de cabello o barba',
+    description: 'Aplicación de tinte en cabello o barba',
     icon: '🎨',
     available: true
   },
   {
     id: 6,
-    name: 'Corte Niño',
+    name: 'Corte Infantil',
     price: 150,
     duration: 25,
-    description: 'Corte especial para niños',
-    icon: '👦',
+    description: 'Corte para niñas y niños',
+    icon: '🧒',
+    available: true
+  },
+
+  // 🔥 Servicios inclusivos / para todo mundo
+  {
+    id: 7,
+    name: 'Corte Personalizado',
+    price: 250,
+    duration: 40,
+    description: 'Corte adaptado a tu estilo, identidad y preferencia',
+    icon: '✨',
+    available: true
+  },
+  {
+    id: 8,
+    name: 'Lavado + Peinado',
+    price: 120,
+    duration: 20,
+    description: 'Lavado profesional y peinado básico',
+    icon: '🧴',
+    available: true
+  },
+  {
+    id: 9,
+    name: 'Peinado Especial',
+    price: 200,
+    duration: 30,
+    description: 'Peinado para eventos o estilo diario',
+    icon: '💇',
+    available: true
+  },
+  {
+    id: 10,
+    name: 'Diseño de Ceja',
+    price: 100,
+    duration: 15,
+    description: 'Perfilado y limpieza de cejas',
+    icon: '👁️',
+    available: true
+  },
+  {
+    id: 11,
+    name: 'Tratamiento Capilar',
+    price: 300,
+    duration: 45,
+    description: 'Hidratación y cuidado del cabello',
+    icon: '💆',
+    available: true
+  },
+  {
+    id: 12,
+    name: 'Servicio Express',
+    price: 100,
+    duration: 15,
+    description: 'Retoque rápido de cabello o barba',
+    icon: '⚡',
     available: true
   }
 ];
+
 
 export const businessInfo = {
   name: 'Barber_MX',
