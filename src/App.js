@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
@@ -13,7 +13,7 @@ import './styles/App.css';
 function App() {
   return (
     <AuthProvider>
-      <Router basename="/barbershop-pro">
+      <Router>
         <div className="app">
           <Header />
           <main>
