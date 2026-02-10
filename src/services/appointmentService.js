@@ -1,5 +1,5 @@
 // src/services/appointmentService.js
-// Servicio de gestión de citas con Firebase Firestore
+// Servicio de gestión de citas con Firebase Firestore.
 
 import { 
   collection, 
