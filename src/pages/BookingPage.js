@@ -75,13 +75,13 @@ const BookingPage = () => {
 
       // Mensaje de WhatsApp
       const message = `🎯 *Nueva Cita Agendada*\n\n` +
-        `👤 Cliente: ${formData.clientName}\n` +
-        `📧 Email: ${formData.clientEmail}\n` +
-        `📱 Teléfono: ${formData.clientPhone}\n` +
-        `✂️ Servicio: ${formData.service.name}\n` +
-        `📅 Fecha: ${formatDate(formData.date)}\n` +
-        `⏰ Hora: ${formData.time}\n` +
-        `🆔 Código: ${appointment.id}\n` +
+        `👤 Cliente: ${formData.clientName} \n` +
+        `📧 Email: ${formData.clientEmail} \n` +
+        `📱 Teléfono: ${formData.clientPhone} \n` +
+        `✂️ Servicio: ${formData.service.name} \n` +
+        `📅 Fecha: ${formatDate(formData.date)} \n` +
+        `⏰ Hora: ${formData.time} \n` +
+        `🆔 Código: ${appointment.id} \n` +
         `${formData.notes ? `📝 Notas: ${formData.notes}\n` : ''}` +
         `\n⏳ Estado: Pendiente de confirmación`;
 
@@ -175,9 +175,9 @@ const BookingPage = () => {
                       className={`date-card ${formData.date === day.date ? 'selected' : ''}`}
                       onClick={() => handleDateSelect(day.date)}
                     >
-                      <span className="date-day">{new Date(day.date + 'T00:00:00').getDate()}</span>
-                      <span className="date-month">{new Date(day.date + 'T00:00:00').toLocaleDateString('es-MX', { month: 'short' })}</span>
-                      <span className="date-weekday">{new Date(day.date + 'T00:00:00').toLocaleDateString('es-MX', { weekday: 'short' })}</span>
+                      <span className="date-weekday">{new Date(day.date + 'T00:00:00').toLocaleDateString('es-MX', { weekday: 'long' })}/</span>
+                      <span className="date-day">{new Date(day.date + 'T00:00:00').getDate()}/</span>
+                      <span className="date-month">{new Date(day.date + 'T00:00:00').toLocaleDateString('es-MX', { month: 'long' })}</span>
                     </button>
                   ))}
                 </div>

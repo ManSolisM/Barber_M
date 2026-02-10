@@ -5,7 +5,7 @@
 .progress-step.active { opacity: 1; }
 .step-number { width: 50px; height: 50px; border-radius: 50%; background: var(--gris-tech); color: var(--blanco-puro); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; }
 .progress-step.active .step-number { background: var(--turquesa-tech); box-shadow: 0 0 20px rgba(45, 155, 155, 0.4); }
-.date-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1rem; }
+.date-grid {display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 2rem; }
 .date-card { background: var(--blanco-puro); border: 2px solid var(--light); border-radius: 12px; padding: 1rem; cursor: pointer; transition: all var(--transition-normal); }
 .date-card:hover { border-color: var(--turquesa-tech); transform: translateY(-4px); }
 .date-card.selected { background: var(--turquesa-tech); color: var(--blanco-puro); }

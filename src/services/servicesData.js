@@ -115,7 +115,7 @@ export const services = [
 
 export const businessInfo = {
   name: 'Barber_MX',
-  phone: '7446628995', // Cambia este número (sin +52, sin espacios)
+  phone: '5529181866', // Cambia este número (sin +52, sin espacios)
   whatsappMessage: 'Hola! Me gustaría agendar una cita.',
   address: 'Calle Principal #123, Centro',
   email: 'contacto@barberMx.com',
@@ -133,7 +133,7 @@ export const businessInfo = {
     saturday: { start: '10:00', end: '18:00', closed: false },
     sunday: { start: '00:00', end: '00:00', closed: true }
   },
-  slotDuration: 30, // Duración de cada slot en minutos
+  slotDuration: 15, // Duración de cada slot en minutos
   breakTime: { start: '14:00', end: '15:00' } // Hora de comida
 };
 
