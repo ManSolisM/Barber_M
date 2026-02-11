@@ -34,7 +34,6 @@ const HomePage = () => {
         </div>
       </section>
 
-
       {/* How It Works Section */}
       <section className="how-it-works">
         <div className="container">
@@ -67,7 +66,29 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Services Section */}
+      <section className="services-section">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Nuestros Servicios</h2>
+            <p className="section-subtitle">
+              Servicios profesionales con la mejor atención y precios competitivos
+            </p>
+          </div>
+          
+          <div className="services-grid">
+            {services.map(service => (
+              <ServiceCard key={service.id} service={service} />
+            ))}
+          </div>
 
+          <div className="section-cta">
+            <Link to="/book" className="btn btn-primary btn-lg">
+              Ver Horarios Disponibles →
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Features Section */}
       <section className="features-section">
@@ -96,32 +117,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Services Section */}
-      <section className="services-section">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Nuestros Servicios</h2>
-            <p className="section-subtitle">
-              Servicios profesionales con la mejor atención y precios competitivos
-            </p>
-          </div>
-          
-          <div className="services-grid">
-            {services.map(service => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
-          </div>
-
-          <div className="section-cta">
-            <Link to="/book" className="btn btn-primary btn-lg">
-              Ver Horarios Disponibles →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      
 
       {/* Call to Action Final */}
       <section className="final-cta circuit-pattern">
