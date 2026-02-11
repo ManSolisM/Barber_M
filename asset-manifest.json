@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Barber_M/static/css/main.295f8904.css",
-    "main.js": "/Barber_M/static/js/main.1689b393.js",
+    "main.css": "/Barber_M/static/css/main.b7c001b9.css",
+    "main.js": "/Barber_M/static/js/main.ed00ddba.js",
     "index.html": "/Barber_M/index.html",
-    "main.295f8904.css.map": "/Barber_M/static/css/main.295f8904.css.map",
-    "main.1689b393.js.map": "/Barber_M/static/js/main.1689b393.js.map"
+    "main.b7c001b9.css.map": "/Barber_M/static/css/main.b7c001b9.css.map",
+    "main.ed00ddba.js.map": "/Barber_M/static/js/main.ed00ddba.js.map"
   },
   "entrypoints": [
-    "static/css/main.295f8904.css",
-    "static/js/main.1689b393.js"
+    "static/css/main.b7c001b9.css",
+    "static/js/main.ed00ddba.js"
   ]
 }
