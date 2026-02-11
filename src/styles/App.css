@@ -73,6 +73,7 @@ p1{
   font-family: 'Space Grotesk', 'Montserrat', sans-serif;
   color: var(--coral-energetic);
   font-weight: 800;
+  font-size: 20px;
 }
 
 .container {

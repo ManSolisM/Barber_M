@@ -269,7 +269,7 @@ export const getServicesByCategory = () => {
 
 // Información del negocio
 export const businessInfo = {
-  name: 'Barbería Elegante',
+  name: 'Barber by Jamelz',
   phone: '5529181866',
   whatsappMessage: 'Hola! Me gustaría agendar una cita.',
   address: 'Calle Principal #123, Centro',
