@@ -1,5 +1,5 @@
 // src/services/appointmentService.js
-// Versión con autenticación de admin mediante token
+// VERSIÓN MEJORADA: Con eliminación real y completar cita con precio
 
 import { 
   collection, 
@@ -17,32 +17,29 @@ import { db } from '../config/firebase';
 import { appointmentStatuses } from './servicesData';
 
 const APPOINTMENTS_COLLECTION = 'appointments';
+const ADMIN_TOKEN = "SECRET_ADMIN_TOKEN_12345"; // Cambia esto
 
-// TOKEN SECRETO DE ADMIN
-// CAMBIA ESTO por tu propio token secreto
-// Debe coincidir con el de las reglas de Firebase
-const ADMIN_TOKEN = "SECRET_ADMIN_TOKEN_12345"; // CÁMBIALO en producción
-
-// Generar ID único para cita
 export const generateAppointmentId = () => {
   return `APT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 };
 
-// Obtener todas las citas
+// Obtener todas las citas (excluir eliminadas)
 export const getAllAppointments = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, APPOINTMENTS_COLLECTION));
-    const appointments = querySnapshot.docs.map(doc => {
-      const data = doc.data();
-      // No incluir el adminToken en los datos devueltos
-      const { adminToken, ...cleanData } = data;
-      return {
-        id: doc.id,
-        ...cleanData,
-        createdAt: data.createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
-        updatedAt: data.updatedAt?.toDate?.()?.toISOString() || new Date().toISOString()
-      };
-    });
+    const appointments = querySnapshot.docs
+      .map(doc => {
+        const data = doc.data();
+        const { adminToken, ...cleanData } = data;
+        return {
+          id: doc.id,
+          ...cleanData,
+          createdAt: data.createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+          updatedAt: data.updatedAt?.toDate?.()?.toISOString() || new Date().toISOString()
+        };
+      })
+      .filter(apt => !apt.deleted); // Filtrar eliminadas
+    
     return appointments;
   } catch (error) {
     console.error('Error al obtener citas:', error);
@@ -50,16 +47,22 @@ export const getAllAppointments = async () => {
   }
 };
 
-// Crear nueva cita (cualquiera puede crear)
+// Crear nueva cita
 export const createAppointment = async (appointmentData) => {
   try {
+    // Buscar el precio del servicio
+    const { services } = await import('./servicesData');
+    const service = services.find(s => s.name === appointmentData.service);
+    const servicePrice = service ? service.price : 0;
+
     const newAppointment = {
       appointmentId: generateAppointmentId(),
       ...appointmentData,
+      servicePrice: servicePrice, // Guardar precio del servicio
       status: appointmentStatuses.PENDING,
+      deleted: false,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now()
-      // NO incluir adminToken al crear
     };
     
     const docRef = await addDoc(collection(db, APPOINTMENTS_COLLECTION), newAppointment);
@@ -84,6 +87,8 @@ export const getAppointmentById = async (id) => {
     
     if (docSnap.exists()) {
       const data = docSnap.data();
+      if (data.deleted) return null; // No devolver si está eliminada
+      
       const { adminToken, ...cleanData } = data;
       return {
         id: docSnap.id,
@@ -119,25 +124,18 @@ export const getClientAppointments = async (identifier) => {
     
     const appointmentsMap = new Map();
     
-    emailResults.docs.forEach(doc => {
-      const data = doc.data();
-      const { adminToken, ...cleanData } = data;
-      appointmentsMap.set(doc.id, {
-        id: doc.id,
-        ...cleanData,
-        createdAt: data.createdAt?.toDate?.()?.toISOString(),
-        updatedAt: data.updatedAt?.toDate?.()?.toISOString()
-      });
-    });
-    
-    phoneResults.docs.forEach(doc => {
-      const data = doc.data();
-      const { adminToken, ...cleanData } = data;
-      appointmentsMap.set(doc.id, {
-        id: doc.id,
-        ...cleanData,
-        createdAt: data.createdAt?.toDate?.()?.toISOString(),
-        updatedAt: data.updatedAt?.toDate?.()?.toISOString()
+    [emailResults, phoneResults].forEach(results => {
+      results.docs.forEach(doc => {
+        const data = doc.data();
+        if (data.deleted) return; // Saltar eliminadas
+        
+        const { adminToken, ...cleanData } = data;
+        appointmentsMap.set(doc.id, {
+          id: doc.id,
+          ...cleanData,
+          createdAt: data.createdAt?.toDate?.()?.toISOString(),
+          updatedAt: data.updatedAt?.toDate?.()?.toISOString()
+        });
       });
     });
     
@@ -151,7 +149,6 @@ export const getClientAppointments = async (identifier) => {
 // Actualizar estado de cita (SOLO ADMIN)
 export const updateAppointmentStatus = async (id, newStatus, rejectionReason = '', isAdmin = false) => {
   try {
-    // Verificar que quien llama sea admin
     if (!isAdmin) {
       throw new Error('No tienes permisos para actualizar citas');
     }
@@ -160,7 +157,7 @@ export const updateAppointmentStatus = async (id, newStatus, rejectionReason = '
     const updateData = {
       status: newStatus,
       updatedAt: Timestamp.now(),
-      adminToken: ADMIN_TOKEN // Incluir token para pasar validación de Firebase
+      adminToken: ADMIN_TOKEN
     };
     
     if (rejectionReason) {
@@ -169,7 +166,6 @@ export const updateAppointmentStatus = async (id, newStatus, rejectionReason = '
     
     await updateDoc(docRef, updateData);
     
-    // Obtener el documento actualizado
     const updatedDoc = await getDoc(docRef);
     const data = updatedDoc.data();
     const { adminToken, ...cleanData } = data;
@@ -182,6 +178,43 @@ export const updateAppointmentStatus = async (id, newStatus, rejectionReason = '
     };
   } catch (error) {
     console.error('Error al actualizar estado:', error);
+    throw error;
+  }
+};
+
+// Completar cita con precio ajustable (SOLO ADMIN)
+export const completeAppointment = async (id, completionData, isAdmin = false) => {
+  try {
+    if (!isAdmin) {
+      throw new Error('No tienes permisos para completar citas');
+    }
+
+    const docRef = doc(db, APPOINTMENTS_COLLECTION, id);
+    const updateData = {
+      status: appointmentStatuses.COMPLETED,
+      finalPrice: completionData.finalPrice,
+      completionNotes: completionData.completionNotes || '',
+      paymentMethod: completionData.paymentMethod || 'cash',
+      completedAt: Timestamp.now(),
+      updatedAt: Timestamp.now(),
+      adminToken: ADMIN_TOKEN
+    };
+    
+    await updateDoc(docRef, updateData);
+    
+    const updatedDoc = await getDoc(docRef);
+    const data = updatedDoc.data();
+    const { adminToken, ...cleanData } = data;
+    
+    return {
+      id: updatedDoc.id,
+      ...cleanData,
+      createdAt: data.createdAt?.toDate?.()?.toISOString(),
+      updatedAt: data.updatedAt?.toDate?.()?.toISOString(),
+      completedAt: data.completedAt?.toDate?.()?.toISOString()
+    };
+  } catch (error) {
+    console.error('Error al completar cita:', error);
     throw error;
   }
 };
@@ -216,32 +249,42 @@ export const updateAppointment = async (id, updates, isAdmin = false) => {
   }
 };
 
-// Eliminar cita (SOLO ADMIN)
+// Eliminar cita (SOLO ADMIN) - Marcado lógico
 export const deleteAppointment = async (id, isAdmin = false) => {
   try {
     if (!isAdmin) {
       throw new Error('No tienes permisos para eliminar citas');
     }
 
-    // Para eliminar, primero actualizamos con el token, luego eliminamos
     const docRef = doc(db, APPOINTMENTS_COLLECTION, id);
     
-    // Marcar como eliminado primero
+    // Opción 1: Marcado lógico (recomendado)
     await updateDoc(docRef, {
-      adminToken: ADMIN_TOKEN,
-      deletedAt: Timestamp.now()
-    });
-    
-    // Luego eliminar (esto puede fallar si las reglas no lo permiten)
-    // Por ahora, solo marcamos como eliminado
-    await updateDoc(docRef, {
-      status: 'deleted',
+      deleted: true,
+      deletedAt: Timestamp.now(),
       adminToken: ADMIN_TOKEN
     });
     
     return true;
   } catch (error) {
     console.error('Error al eliminar cita:', error);
+    throw error;
+  }
+};
+
+// Eliminar cita físicamente (SOLO ADMIN) - Usar con precaución
+export const deleteAppointmentPermanently = async (id, isAdmin = false) => {
+  try {
+    if (!isAdmin) {
+      throw new Error('No tienes permisos para eliminar citas');
+    }
+
+    const docRef = doc(db, APPOINTMENTS_COLLECTION, id);
+    await deleteDoc(docRef);
+    
+    return true;
+  } catch (error) {
+    console.error('Error al eliminar cita permanentemente:', error);
     throw error;
   }
 };
@@ -255,16 +298,18 @@ export const getAppointmentsByDate = async (date) => {
     );
     
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => {
-      const data = doc.data();
-      const { adminToken, ...cleanData } = data;
-      return {
-        id: doc.id,
-        ...cleanData,
-        createdAt: data.createdAt?.toDate?.()?.toISOString(),
-        updatedAt: data.updatedAt?.toDate?.()?.toISOString()
-      };
-    }).filter(apt => apt.status !== 'deleted'); // Filtrar eliminados
+    return querySnapshot.docs
+      .map(doc => {
+        const data = doc.data();
+        const { adminToken, ...cleanData } = data;
+        return {
+          id: doc.id,
+          ...cleanData,
+          createdAt: data.createdAt?.toDate?.()?.toISOString(),
+          updatedAt: data.updatedAt?.toDate?.()?.toISOString()
+        };
+      })
+      .filter(apt => !apt.deleted);
   } catch (error) {
     console.error('Error al obtener citas por fecha:', error);
     return [];
@@ -278,7 +323,7 @@ export const isTimeSlotAvailable = async (date, time, duration, excludeId = null
     const activeAppointments = appointments.filter(apt => 
       apt.status !== appointmentStatuses.CANCELLED && 
       apt.status !== appointmentStatuses.REJECTED &&
-      apt.status !== 'deleted' &&
+      !apt.deleted &&
       apt.id !== excludeId
     );
 
@@ -312,18 +357,15 @@ export const getAppointmentStats = async () => {
   try {
     const appointments = await getAllAppointments();
     const today = new Date().toISOString().split('T')[0];
-    
-    // Filtrar eliminados
-    const activeAppointments = appointments.filter(apt => apt.status !== 'deleted');
 
     return {
-      total: activeAppointments.length,
-      pending: activeAppointments.filter(apt => apt.status === appointmentStatuses.PENDING).length,
-      confirmed: activeAppointments.filter(apt => apt.status === appointmentStatuses.CONFIRMED).length,
-      completed: activeAppointments.filter(apt => apt.status === appointmentStatuses.COMPLETED).length,
-      rejected: activeAppointments.filter(apt => apt.status === appointmentStatuses.REJECTED).length,
-      cancelled: activeAppointments.filter(apt => apt.status === appointmentStatuses.CANCELLED).length,
-      today: activeAppointments.filter(apt => apt.date === today).length
+      total: appointments.length,
+      pending: appointments.filter(apt => apt.status === appointmentStatuses.PENDING).length,
+      confirmed: appointments.filter(apt => apt.status === appointmentStatuses.CONFIRMED).length,
+      completed: appointments.filter(apt => apt.status === appointmentStatuses.COMPLETED).length,
+      rejected: appointments.filter(apt => apt.status === appointmentStatuses.REJECTED).length,
+      cancelled: appointments.filter(apt => apt.status === appointmentStatuses.CANCELLED).length,
+      today: appointments.filter(apt => apt.date === today).length
     };
   } catch (error) {
     console.error('Error al obtener estadísticas:', error);
@@ -335,6 +377,49 @@ export const getAppointmentStats = async () => {
       rejected: 0,
       cancelled: 0,
       today: 0
+    };
+  }
+};
+
+// Obtener reporte de ingresos
+export const getIncomeReport = async (startDate, endDate) => {
+  try {
+    const appointments = await getAllAppointments();
+    const completedAppointments = appointments.filter(apt => 
+      apt.status === appointmentStatuses.COMPLETED &&
+      apt.date >= startDate &&
+      apt.date <= endDate
+    );
+
+    const totalIncome = completedAppointments.reduce((sum, apt) => {
+      return sum + (apt.finalPrice || apt.servicePrice || 0);
+    }, 0);
+
+    const byPaymentMethod = {
+      cash: 0,
+      card: 0,
+      transfer: 0
+    };
+
+    completedAppointments.forEach(apt => {
+      const method = apt.paymentMethod || 'cash';
+      const amount = apt.finalPrice || apt.servicePrice || 0;
+      byPaymentMethod[method] = (byPaymentMethod[method] || 0) + amount;
+    });
+
+    return {
+      totalAppointments: completedAppointments.length,
+      totalIncome,
+      byPaymentMethod,
+      appointments: completedAppointments
+    };
+  } catch (error) {
+    console.error('Error al obtener reporte de ingresos:', error);
+    return {
+      totalAppointments: 0,
+      totalIncome: 0,
+      byPaymentMethod: { cash: 0, card: 0, transfer: 0 },
+      appointments: []
     };
   }
 };

@@ -1,25 +1,30 @@
 // src/pages/OwnerDashboard.js
+// VERSIÓN MEJORADA: Con modal de completar cita y eliminación funcional
+
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useAppointments } from '../hooks/useAppointments';
 import { businessInfo, statusLabels, statusColors, appointmentStatuses } from '../services/servicesData';
 import { formatDate } from '../utils/timeSlots';
+import { completeAppointment } from '../services/appointmentService';
+import CompleteAppointmentModal from '../components/owner/CompleteAppointmentModal';
 import '../styles/OwnerDashboard.css';
 
 const OwnerDashboard = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   const {
     appointments,
     loading,
     loadAppointments,
     changeStatus,
     removeAppointment
-  } = useAppointments(true); // Auto-refresh activado
+  } = useAppointments(true);
 
   const [filter, setFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('all');
   const [showRejectModal, setShowRejectModal] = useState(false);
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [rejectionReason, setRejectionReason] = useState('');
 
@@ -37,17 +42,12 @@ const OwnerDashboard = () => {
 
   // Filtrar citas
   const filteredAppointments = appointments.filter(apt => {
-    // Filtro por estado
     if (filter !== 'all' && apt.status !== filter) return false;
-    
-    // Filtro por fecha
     if (dateFilter === 'today' && apt.date !== today) return false;
     if (dateFilter === 'upcoming' && apt.date <= today) return false;
     if (dateFilter === 'past' && apt.date >= today) return false;
-    
     return true;
   }).sort((a, b) => {
-    // Ordenar por fecha y hora
     const dateA = new Date(`${a.date}T${a.time}`);
     const dateB = new Date(`${b.date}T${b.time}`);
     return dateB - dateA;
@@ -63,17 +63,18 @@ const OwnerDashboard = () => {
     completed: appointments.filter(apt => apt.status === appointmentStatuses.COMPLETED).length
   };
 
+  // ACEPTAR CITA
   const handleAccept = (appointment) => {
     if (window.confirm(`¿Confirmar la cita de ${appointment.clientName}?`)) {
       changeStatus(appointment.id, appointmentStatuses.CONFIRMED);
       
-      // Opcional: Abrir WhatsApp para notificar
       const message = `✅ *Cita Confirmada*\n\n` +
         `Hola ${appointment.clientName},\n\n` +
         `Tu cita ha sido confirmada:\n` +
         `📅 Fecha: ${formatDate(appointment.date)}\n` +
         `⏰ Hora: ${appointment.time}\n` +
-        `✂️ Servicio: ${appointment.service}\n\n` +
+        `✂️ Servicio: ${appointment.service}\n` +
+        `💰 Precio: $${appointment.servicePrice || 0}\n\n` +
         `¡Te esperamos!`;
       
       const whatsappUrl = `https://wa.me/52${appointment.clientPhone}?text=${encodeURIComponent(message)}`;
@@ -81,6 +82,7 @@ const OwnerDashboard = () => {
     }
   };
 
+  // RECHAZAR CITA
   const handleReject = (appointment) => {
     setSelectedAppointment(appointment);
     setShowRejectModal(true);
@@ -94,7 +96,6 @@ const OwnerDashboard = () => {
 
     changeStatus(selectedAppointment.id, appointmentStatuses.REJECTED, rejectionReason);
     
-    // Opcional: Notificar por WhatsApp
     const message = `❌ *Cita No Confirmada*\n\n` +
       `Hola ${selectedAppointment.clientName},\n\n` +
       `Lamentamos informarte que no pudimos confirmar tu cita.\n` +
@@ -109,15 +110,57 @@ const OwnerDashboard = () => {
     setRejectionReason('');
   };
 
+  // COMPLETAR CITA (con modal de precio)
   const handleComplete = (appointment) => {
-    if (window.confirm(`¿Marcar como completada la cita de ${appointment.clientName}?`)) {
-      changeStatus(appointment.id, appointmentStatuses.COMPLETED);
+    setSelectedAppointment(appointment);
+    setShowCompleteModal(true);
+  };
+
+  const confirmComplete = async (completionData) => {
+    try {
+      const adminCheck = isAdmin();
+      if (!adminCheck) {
+        alert('No tienes permisos para completar citas');
+        return;
+      }
+
+      await completeAppointment(selectedAppointment.id, completionData, true);
+      
+      alert(`✅ Cita completada!\n\nTotal cobrado: $${completionData.finalPrice}\nMétodo de pago: ${completionData.paymentMethod}`);
+      
+      setShowCompleteModal(false);
+      setSelectedAppointment(null);
+      
+      // Recargar citas
+      loadAppointments();
+    } catch (error) {
+      alert('❌ Error al completar la cita: ' + error.message);
+      console.error(error);
     }
   };
 
-  const handleDelete = (appointment) => {
-    if (window.confirm(`¿Eliminar permanentemente la cita de ${appointment.clientName}?\n\nEsta acción no se puede deshacer.`)) {
-      removeAppointment(appointment.id);
+  // ELIMINAR CITA
+  const handleDelete = async (appointment) => {
+    const confirmMessage = `⚠️ ELIMINAR CITA\n\n` +
+      `Cliente: ${appointment.clientName}\n` +
+      `Servicio: ${appointment.service}\n` +
+      `Fecha: ${appointment.date} ${appointment.time}\n\n` +
+      `Esta acción NO se puede deshacer.\n\n` +
+      `¿Estás seguro de eliminar esta cita?`;
+
+    if (window.confirm(confirmMessage)) {
+      try {
+        const result = await removeAppointment(appointment.id);
+        
+        if (result.success) {
+          alert('✅ Cita eliminada correctamente');
+        } else {
+          alert('❌ Error al eliminar: ' + result.error);
+        }
+      } catch (error) {
+        alert('❌ Error al eliminar la cita');
+        console.error(error);
+      }
     }
   };
 
@@ -186,6 +229,14 @@ const OwnerDashboard = () => {
             <span className="stat-value">{stats.today}</span>
           </div>
         </div>
+
+        <div className="stat-card completed">
+          <div className="stat-icon">✔️</div>
+          <div className="stat-content">
+            <span className="stat-label">Completadas</span>
+            <span className="stat-value">{stats.completed}</span>
+          </div>
+        </div>
       </div>
 
       {/* Filtros */}
@@ -200,8 +251,8 @@ const OwnerDashboard = () => {
             <option value="all">Todos</option>
             <option value="pending">Pendientes</option>
             <option value="confirmed">Confirmadas</option>
-            <option value="rejected">Rechazadas</option>
             <option value="completed">Completadas</option>
+            <option value="rejected">Rechazadas</option>
           </select>
         </div>
 
@@ -233,7 +284,7 @@ const OwnerDashboard = () => {
                 <div className="appointment-header">
                   <div className="appointment-client">
                     <h3>{apt.clientName}</h3>
-                    <span className="appointment-id">#{apt.id.slice(-8)}</span>
+                    <span className="appointment-id">#{apt.appointmentId?.slice(-8) || apt.id.slice(-8)}</span>
                   </div>
                   <span 
                     className="status-badge"
@@ -260,6 +311,16 @@ const OwnerDashboard = () => {
                   </div>
 
                   <div className="detail-row">
+                    <span className="detail-icon">💰</span>
+                    <span className="detail-text">
+                      ${apt.finalPrice || apt.servicePrice || 0}
+                      {apt.finalPrice && apt.finalPrice !== apt.servicePrice && (
+                        <small> (precio ajustado)</small>
+                      )}
+                    </span>
+                  </div>
+
+                  <div className="detail-row">
                     <span className="detail-icon">📧</span>
                     <span className="detail-text">{apt.clientEmail}</span>
                   </div>
@@ -280,6 +341,14 @@ const OwnerDashboard = () => {
                     <div className="rejection-info">
                       <strong>Motivo de rechazo:</strong>
                       <p>{apt.rejectionReason}</p>
+                    </div>
+                  )}
+
+                  {apt.completionNotes && (
+                    <div className="completion-info">
+                      <strong>Notas de completitud:</strong>
+                      <p>{apt.completionNotes}</p>
+                      <small>Método de pago: {apt.paymentMethod}</small>
                     </div>
                   )}
                 </div>
@@ -307,10 +376,10 @@ const OwnerDashboard = () => {
                   {apt.status === appointmentStatuses.CONFIRMED && (
                     <button 
                       onClick={() => handleComplete(apt)}
-                      className="btn btn-sm btn-primary"
+                      className="btn btn-sm btn-success"
                       title="Marcar como completada"
                     >
-                      ✔️ Completar
+                      💰 Completar con Precio
                     </button>
                   )}
 
@@ -327,10 +396,10 @@ const OwnerDashboard = () => {
 
                   <button 
                     onClick={() => handleDelete(apt)}
-                    className="btn btn-sm btn-outline"
+                    className="btn btn-sm btn-outline btn-delete"
                     title="Eliminar cita"
                   >
-                    🗑️
+                    🗑️ Eliminar
                   </button>
                 </div>
 
@@ -399,6 +468,18 @@ const OwnerDashboard = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Modal de Completar Cita */}
+      {showCompleteModal && selectedAppointment && (
+        <CompleteAppointmentModal
+          appointment={selectedAppointment}
+          onConfirm={confirmComplete}
+          onCancel={() => {
+            setShowCompleteModal(false);
+            setSelectedAppointment(null);
+          }}
+        />
       )}
     </div>
   );

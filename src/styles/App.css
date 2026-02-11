@@ -69,6 +69,12 @@ main {
   flex: 1;
 }
 
+p1{
+  font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+  color: var(--coral-energetic);
+  font-weight: 800;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;

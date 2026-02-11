@@ -1,0 +1,261 @@
+/* src/styles/CompleteAppointmentModal.css */
+
+.complete-modal {
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.appointment-summary {
+  background: var(--light);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.appointment-summary h4 {
+  color: var(--azul-profundo);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row.highlight {
+  background: rgba(45, 155, 155, 0.1);
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  border: none;
+}
+
+.summary-label {
+  color: var(--gris-tech);
+  font-weight: 500;
+}
+
+.summary-value {
+  color: var(--azul-profundo);
+  font-weight: 600;
+}
+
+.price-original {
+  font-size: 1.3rem;
+  color: var(--turquesa-tech);
+}
+
+/* Sección de precio */
+.price-section {
+  background: var(--blanco-puro);
+  border: 2px solid var(--turquesa-tech);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.price-section h4 {
+  color: var(--azul-profundo);
+  margin-bottom: 1rem;
+}
+
+.price-input-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.currency-symbol {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--turquesa-tech);
+}
+
+.price-input {
+  flex: 1;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 0.75rem;
+  border: 2px solid var(--turquesa-tech);
+  border-radius: 8px;
+  color: var(--azul-profundo);
+  background: var(--blanco-puro);
+}
+
+.price-input:focus {
+  outline: none;
+  border-color: var(--coral-energetic);
+  box-shadow: 0 0 0 3px rgba(255, 107, 74, 0.1);
+}
+
+.price-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn-price-adjust {
+  padding: 0.4rem 0.8rem;
+  background: var(--light);
+  border: 1px solid var(--turquesa-tech);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--azul-profundo);
+  font-weight: 600;
+}
+
+.btn-price-adjust:hover {
+  background: var(--turquesa-tech);
+  color: var(--blanco-puro);
+  transform: scale(1.05);
+}
+
+.price-difference {
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.price-difference.discount {
+  background: rgba(59, 125, 125, 0.1);
+  color: var(--verde-circuito);
+  border: 2px dashed var(--verde-circuito);
+}
+
+.price-difference.extra {
+  background: rgba(255, 107, 74, 0.1);
+  color: var(--coral-energetic);
+  border: 2px dashed var(--coral-energetic);
+}
+
+/* Métodos de pago */
+.payment-section {
+  margin-bottom: 1.5rem;
+}
+
+.payment-section h4 {
+  color: var(--azul-profundo);
+  margin-bottom: 1rem;
+}
+
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.payment-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border: 2px solid var(--light);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  background: var(--blanco-puro);
+}
+
+.payment-option input[type="radio"] {
+  display: none;
+}
+
+.payment-option:hover {
+  border-color: var(--turquesa-tech);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.payment-option.selected {
+  border-color: var(--turquesa-tech);
+  background: rgba(45, 155, 155, 0.05);
+  box-shadow: 0 0 0 3px rgba(45, 155, 155, 0.1);
+}
+
+.payment-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.payment-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--azul-profundo);
+}
+
+/* Notas */
+.notes-section {
+  margin-bottom: 1.5rem;
+}
+
+.notes-section h4 {
+  color: var(--azul-profundo);
+  margin-bottom: 0.75rem;
+}
+
+/* Total */
+.total-section {
+  background: linear-gradient(135deg, var(--turquesa-tech), var(--verde-circuito));
+  color: var(--blanco-puro);
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.total-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.total-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón de completar */
+.btn-complete {
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  background: var(--verde-circuito);
+}
+
+.btn-complete:hover {
+  background: var(--turquesa-tech);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .payment-methods {
+    grid-template-columns: 1fr;
+  }
+
+  .price-input {
+    font-size: 1.5rem;
+  }
+
+  .total-amount {
+    font-size: 2rem;
+  }
+
+  .complete-modal {
+    max-width: 95%;
+  }
+}

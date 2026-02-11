@@ -1,124 +1,279 @@
 // src/services/servicesData.js
+// Catálogo ampliado de servicios para público general
+
 export const services = [
+  // CORTES DE CABELLO
   {
     id: 1,
-    name: 'Corte de Cabello',
+    name: 'Corte de Cabello Caballero',
     price: 200,
     duration: 30,
     description: 'Corte clásico o moderno según tu estilo',
     icon: '✂️',
+    category: 'Cabello',
     available: true
   },
   {
     id: 2,
-    name: 'Corte + Barba',
-    price: 300,
+    name: 'Corte de Cabello Dama',
+    price: 250,
     duration: 45,
-    description: 'Corte de cabello más arreglo de barba',
-    icon: '💈',
+    description: 'Corte, lavado y peinado profesional',
+    icon: '💇‍♀️',
+    category: 'Cabello',
     available: true
   },
   {
     id: 3,
-    name: 'Barba',
+    name: 'Corte Niño',
     price: 150,
-    duration: 20,
-    description: 'Arreglo y diseño de barba',
-    icon: '🧔',
+    duration: 25,
+    description: 'Corte especial para niños hasta 12 años',
+    icon: '👦',
+    category: 'Cabello',
     available: true
   },
   {
     id: 4,
-    name: 'Afeitado Clásico',
-    price: 180,
-    duration: 25,
-    description: 'Afeitado tradicional con navaja',
-    icon: '🪒',
+    name: 'Corte Fade',
+    price: 250,
+    duration: 40,
+    description: 'Degradado profesional con navaja',
+    icon: '🔥',
+    category: 'Cabello',
     available: true
   },
+  
+  // BARBA Y AFEITADO
   {
     id: 5,
-    name: 'Tinte',
-    price: 400,
-    duration: 60,
-    description: 'Aplicación de tinte en cabello o barba',
-    icon: '🎨',
+    name: 'Arreglo de Barba',
+    price: 150,
+    duration: 20,
+    description: 'Arreglo y diseño de barba profesional',
+    icon: '🧔',
+    category: 'Barba',
     available: true
   },
   {
     id: 6,
-    name: 'Corte Infantil',
-    price: 150,
+    name: 'Afeitado Clásico',
+    price: 180,
     duration: 25,
-    description: 'Corte para niñas y niños',
-    icon: '🧒',
+    description: 'Afeitado tradicional con navaja y toalla caliente',
+    icon: '🪒',
+    category: 'Barba',
     available: true
   },
-
-  // 🔥 Servicios inclusivos / para todo mundo
   {
     id: 7,
-    name: 'Corte Personalizado',
-    price: 250,
-    duration: 40,
-    description: 'Corte adaptado a tu estilo, identidad y preferencia',
-    icon: '✨',
+    name: 'Barba + Bigote',
+    price: 180,
+    duration: 30,
+    description: 'Arreglo completo de barba y bigote',
+    icon: '👨',
+    category: 'Barba',
     available: true
   },
+  
+  // PAQUETES
   {
     id: 8,
-    name: 'Lavado + Peinado',
-    price: 120,
-    duration: 20,
-    description: 'Lavado profesional y peinado básico',
-    icon: '🧴',
+    name: 'Corte + Barba',
+    price: 300,
+    duration: 45,
+    description: 'Paquete completo: corte de cabello y arreglo de barba',
+    icon: '💈',
+    category: 'Paquetes',
     available: true
   },
   {
     id: 9,
-    name: 'Peinado Especial',
-    price: 200,
-    duration: 30,
-    description: 'Peinado para eventos o estilo diario',
-    icon: '💇',
+    name: 'Paquete Premium',
+    price: 450,
+    duration: 60,
+    description: 'Corte, barba, afeitado de cuello y masaje capilar',
+    icon: '⭐',
+    category: 'Paquetes',
     available: true
   },
   {
     id: 10,
-    name: 'Diseño de Ceja',
-    price: 100,
-    duration: 15,
-    description: 'Perfilado y limpieza de cejas',
-    icon: '👁️',
+    name: 'Paquete Express',
+    price: 250,
+    duration: 30,
+    description: 'Corte rápido y barba básica',
+    icon: '⚡',
+    category: 'Paquetes',
     available: true
   },
+  
+  // TINTES Y COLOR
   {
     id: 11,
-    name: 'Tratamiento Capilar',
-    price: 300,
-    duration: 45,
-    description: 'Hidratación y cuidado del cabello',
-    icon: '💆',
+    name: 'Tinte de Cabello',
+    price: 400,
+    duration: 60,
+    description: 'Tinte completo de cabello, cualquier tono',
+    icon: '🎨',
+    category: 'Color',
     available: true
   },
   {
     id: 12,
-    name: 'Servicio Express',
+    name: 'Tinte de Barba',
+    price: 250,
+    duration: 30,
+    description: 'Tinte profesional de barba',
+    icon: '🖌️',
+    category: 'Color',
+    available: true
+  },
+  {
+    id: 13,
+    name: 'Mechas/Highlights',
+    price: 600,
+    duration: 90,
+    description: 'Mechas o luces californianas',
+    icon: '✨',
+    category: 'Color',
+    available: true
+  },
+  {
+    id: 14,
+    name: 'Retoque de Raíz',
+    price: 300,
+    duration: 45,
+    description: 'Retoque de color en raíces',
+    icon: '🎯',
+    category: 'Color',
+    available: true
+  },
+  
+  // TRATAMIENTOS
+  {
+    id: 15,
+    name: 'Tratamiento Capilar',
+    price: 350,
+    duration: 45,
+    description: 'Tratamiento hidratante y revitalizante',
+    icon: '💆',
+    category: 'Tratamientos',
+    available: true
+  },
+  {
+    id: 16,
+    name: 'Keratina',
+    price: 800,
+    duration: 120,
+    description: 'Tratamiento de keratina alisadora',
+    icon: '🌟',
+    category: 'Tratamientos',
+    available: true
+  },
+  {
+    id: 17,
+    name: 'Permanente',
+    price: 500,
+    duration: 90,
+    description: 'Permanente o rizado profesional',
+    icon: '🌀',
+    category: 'Tratamientos',
+    available: true
+  },
+  
+  // ADICIONALES
+  {
+    id: 18,
+    name: 'Lavado y Peinado',
     price: 100,
+    duration: 20,
+    description: 'Lavado y peinado profesional',
+    icon: '🚿',
+    category: 'Adicionales',
+    available: true
+  },
+  {
+    id: 19,
+    name: 'Planchado',
+    price: 150,
+    duration: 30,
+    description: 'Planchado profesional de cabello',
+    icon: '📏',
+    category: 'Adicionales',
+    available: true
+  },
+  {
+    id: 20,
+    name: 'Peinado de Evento',
+    price: 300,
+    duration: 45,
+    description: 'Peinado especial para eventos o celebraciones',
+    icon: '👑',
+    category: 'Adicionales',
+    available: true
+  },
+  {
+    id: 21,
+    name: 'Diseño en Cabello',
+    price: 200,
+    duration: 30,
+    description: 'Diseños o líneas artísticas con navaja',
+    icon: '🎭',
+    category: 'Adicionales',
+    available: true
+  },
+  {
+    id: 22,
+    name: 'Limpieza Facial',
+    price: 200,
+    duration: 30,
+    description: 'Limpieza facial profunda y mascarilla',
+    icon: '🧖',
+    category: 'Adicionales',
+    available: true
+  },
+  {
+    id: 23,
+    name: 'Depilación de Cejas',
+    price: 80,
     duration: 15,
-    description: 'Retoque rápido de cabello o barba',
-    icon: '⚡',
+    description: 'Perfilado y depilación de cejas',
+    icon: '👁️',
+    category: 'Adicionales',
+    available: true
+  },
+  {
+    id: 24,
+    name: 'Masaje Capilar',
+    price: 150,
+    duration: 20,
+    description: 'Masaje relajante de cuero cabelludo',
+    icon: '💆‍♂️',
+    category: 'Adicionales',
     available: true
   }
 ];
 
+// Obtener servicios por categoría
+export const getServicesByCategory = () => {
+  const categories = {};
+  services.forEach(service => {
+    if (!categories[service.category]) {
+      categories[service.category] = [];
+    }
+    categories[service.category].push(service);
+  });
+  return categories;
+};
 
+// Información del negocio
 export const businessInfo = {
-  name: 'Barber_MX',
-  phone: '5529181866', // Cambia este número (sin +52, sin espacios)
+  name: 'Barbería Elegante',
+  phone: '5529181866',
   whatsappMessage: 'Hola! Me gustaría agendar una cita.',
   address: 'Calle Principal #123, Centro',
-  email: 'contacto@barberMx.com',
+  email: 'contacto@barberbyjamelz.com',
   schedule: {
     weekdays: 'Lunes a Viernes: 10:00 AM - 8:00 PM',
     saturday: 'Sábado: 10:00 AM - 6:00 PM',
@@ -133,11 +288,11 @@ export const businessInfo = {
     saturday: { start: '10:00', end: '18:00', closed: false },
     sunday: { start: '00:00', end: '00:00', closed: true }
   },
-  slotDuration: 15, // Duración de cada slot en minutos
-  breakTime: { start: '14:00', end: '15:00' } // Hora de comida
+  slotDuration: 30,
+  breakTime: { start: '14:00', end: '15:00' }
 };
 
-// Estados posibles de una cita
+// Estados de citas
 export const appointmentStatuses = {
   PENDING: 'pending',
   CONFIRMED: 'confirmed',
@@ -155,9 +310,9 @@ export const statusLabels = {
 };
 
 export const statusColors = {
-  pending: '#FF6B4A', // Coral - Requiere atención
-  confirmed: '#2D9B9B', // Turquesa - Confirmada
-  rejected: '#E85D3F', // Naranja fuego - Rechazada
-  completed: '#3B7D7D', // Verde circuito - Completada
-  cancelled: '#4A5568' // Gris - Cancelada
+  pending: '#FF6B4A',
+  confirmed: '#2D9B9B',
+  rejected: '#E85D3F',
+  completed: '#3B7D7D',
+  cancelled: '#4A5568'
 };

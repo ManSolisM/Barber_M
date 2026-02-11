@@ -93,25 +93,25 @@ const HomePage = () => {
           <div className="steps-grid">
             <div className="step-card">
               <div className="step-number">1</div>
-              <h3>Elige tu Servicio</h3>
+              <p1>Elige tu Servicio</p1>
               <p>Selecciona el servicio que deseas de nuestro catálogo</p>
             </div>
             <div className="step-arrow">→</div>
             <div className="step-card">
               <div className="step-number">2</div>
-              <h3>Selecciona Fecha y Hora</h3>
+              <p1>Selecciona Fecha y Hora</p1>
               <p>Elige el día y horario que mejor te convenga</p>
             </div>
             <div className="step-arrow">→</div>
             <div className="step-card">
               <div className="step-number">3</div>
-              <h3>Confirma tu Cita</h3>
+              <p1>Confirma tu Cita</p1>
               <p>Ingresa tus datos y confirma. Recibirás notificación</p>
             </div>
             <div className="step-arrow">→</div>
             <div className="step-card">
               <div className="step-number">4</div>
-              <h3>¡Listo!</h3>
+              <p1>¡Listo!</p1>
               <p>Revisa el estado de tu cita en cualquier momento</p>
             </div>
           </div>
